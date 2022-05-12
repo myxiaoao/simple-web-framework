@@ -7,7 +7,7 @@
 - [x] 前缀树路由 Router
 - [x] 分组控制 Group
 - [x] 中间件 Middleware
-- [ ] 模板 Template
+- [x] 模板 Template
 - [ ] 错误恢复
 
 ## License
