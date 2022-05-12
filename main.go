@@ -19,9 +19,8 @@ func FormatAsDate(t time.Time) string {
 }
 
 func main() {
-	r := framework.New()
+	r := framework.Default()
 
-	r.Use(framework.Logger())
 	r.SetFuncMap(template.FuncMap{
 		"FormatAsDate": FormatAsDate,
 	})
@@ -39,12 +38,16 @@ func main() {
 			"stuArr": [2]*student{stu1, stu2},
 		})
 	})
-
 	r.GET("/date", func(c *framework.Context) {
 		c.HTML(http.StatusOK, "custom_func.tmpl", framework.H{
 			"title": "cooper",
 			"now":   time.Date(2019, 8, 17, 0, 0, 0, 0, time.UTC),
 		})
+	})
+	// index out of range for testing Recovery()
+	r.GET("/panic", func(c *framework.Context) {
+		names := []string{"cooper"}
+		c.String(http.StatusOK, names[100])
 	})
 
 	err := r.Run("localhost:3096")

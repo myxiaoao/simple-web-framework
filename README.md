@@ -8,7 +8,7 @@
 - [x] 分组控制 Group
 - [x] 中间件 Middleware
 - [x] 模板 Template
-- [ ] 错误恢复
+- [x] 错误恢复 (Panic Recover)
 
 ## License
 
