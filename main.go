@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"simple-web-framework/framework"
 )
@@ -9,20 +8,18 @@ import (
 func main() {
 	w := framework.New()
 
-	w.GET("/", func(w http.ResponseWriter, req *http.Request) {
-		_, err := fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
-		if err != nil {
-			return
-		}
+	w.GET("/", func(c *framework.Context) {
+		c.HTML(http.StatusOK, "<h1>Hello world.</h1>")
 	})
-
-	w.GET("/hello", func(w http.ResponseWriter, req *http.Request) {
-		for k, v := range req.Header {
-			_, err := fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
-			if err != nil {
-				return
-			}
-		}
+	w.GET("/hello", func(c *framework.Context) {
+		// expect /hello?name=cooper
+		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
+	})
+	w.POST("/login", func(c *framework.Context) {
+		c.JSON(http.StatusOK, framework.H{
+			"username": c.PostForm("username"),
+			"password": c.PostForm("password"),
+		})
 	})
 
 	err := w.Run("localhost:3096")
